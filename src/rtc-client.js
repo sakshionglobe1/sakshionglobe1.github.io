@@ -174,10 +174,11 @@ export default class RTCClient {
           this._localStream = AgoraRTC.createStream({
             streamID: this._params.uid,
             audio: true,
-            video: true,
+            video: false,
             screen: false,
             microphoneId: data.microphoneId,
-            cameraId: data.cameraId
+            cameraId: data.cameraId,
+            audioSource: audioSource
           })
 
           this._localStream.on('player-status-change', (evt) => {
