@@ -163,7 +163,7 @@ export default class RTCClient {
           this._localStream = AgoraRTC.createStream({
             streamID: this._params.uid,
             audio: true,
-            video: false,
+            video: true,
             screen: false,
             microphoneId: data.microphoneId,
             cameraId: data.cameraId
