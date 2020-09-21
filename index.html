@@ -279,7 +279,7 @@
                             kind: item.kind
                         })
 
-                        console.log('********************AUDIOS OUTPUT2***********************')
+                        console.log('********************AUDIOS OUTPUT3***********************')
                         console.log(audioOutput)
                     }
                 }
@@ -444,7 +444,7 @@
                         console.log('************audioSource********')
                         console.log(audioSource)
                         // After processing audioSource
-                        var localStream = AgoraRTC.createStream({
+                        rtc.localStream = AgoraRTC.createStream({
                             video: false,
                             audio: true,
                             audioSource: audioSource
