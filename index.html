@@ -228,7 +228,7 @@
         function getDevices(next) {
             AgoraRTC.getDevices(function (items) {
                 items.filter(function (item) {
-                    return ["audioinput", "videoinput"].indexOf(item.kind) !== -1
+                    return ["audioinput", "videoinput", "audiooutput"].indexOf(item.kind) !== -1
                 })
                     .map(function (item) {
                         return {
@@ -239,6 +239,7 @@
                     })
                 var videos = []
                 var audios = []
+                var audioOutput = []
                 for (var i = 0; i < items.length; i++) {
                     var item = items[i]
                     if ("videoinput" == item.kind) {
@@ -264,8 +265,21 @@
                             value: value,
                             kind: item.kind
                         })
-                        console.log('********************AUDIOS***********************')
-                        console.log(audios)
+
+                    }
+                    if ("audiooutput" == item.kind) {
+                        var name = item.label
+                        var value = item.deviceId
+                        if (!name) {
+                            name = "microphone-" + audios.length
+                        }
+                        audioOutput.push({
+                            name: name,
+                            value: value,
+                            kind: item.kind
+                        })
+                        console.log('********************AUDIOS OUTPUT***********************')
+                        console.log(audioOutput)
                     }
                 }
                 next({ videos: videos, audios: audios })
