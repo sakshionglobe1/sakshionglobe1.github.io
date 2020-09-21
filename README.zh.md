@@ -1,18 +1,20 @@
-# Web Tutorial - 1to1
+# AgoraAudioIO-Web-Webpack - Webpack
 
 *[English](README.md) | 中文*
 
-这个开源示例项目演示了如何快速集成 Agora 视频 SDK，实现多人视频通话。
+这个开源示例项目演示了如何快速集成 Agora 视频 SDK，屏幕共享。
 
 在这个示例项目中包含了以下功能：
 
-- 加入通话和离开通话:
-- 选择摄像头和麦克风设备:
+- 加入/离开频道
+- 开始/结束/暂停/恢复 混音
+- 开始/结束/暂停/恢复 音效
+- 选择媒体设备
 
 ## 环境准备
 
-- Node.js 6.9.1+
-- 支持SSL(https)的服务器
+- nodejs LTS
+- web浏览器
 
 ## 运行示例程序
 
@@ -29,15 +31,23 @@
 
 ### 集成 Agora 视频 SDK
 
-下载SDK到 **assets**目录，并改名为**AgoraRTCSDK.js**
-
-### 启动Web-Server
-
-1. 在工作目录通过以下命令启动live-server服务器,
+1. 在Terminal中，在您的项目根目录输入`install`命令以安装项目依赖
+    ```shell
+    # install dependencies
+    npm install
     ```
-    npx serve .
+2. 输入`run dev`命令以启动Web程序
+    ```shell
+    # serve with hot reload at localhost:8080
+    npm run dev
     ```
-2. 在对应的输入框里正确输入 APPID, Token, Channel。点击**JOIN**即可。
+    输入`npm run build`会压缩静态资源文件，可作为生产环境打包发布。
+    ``` bash
+    # build for production with minification
+    npm run build
+    ```
+3. 你的浏览器默认会打开示例应用程序。
+    **注意** 如果没有自动打开，请在浏览器里手动输入URL `http://localhost:8080`。
 
 ## 联系我们
 
@@ -48,7 +58,7 @@
 - 完整的 API 文档见 [文档中心](https://docs.agora.io/cn/)
 - 若遇到问题需要开发者帮助，你可以到 [开发者社区](https://rtcdeveloper.com/) 提问
 - 如果需要售后技术支持, 你可以在 [Agora Dashboard](https://dashboard.agora.io) 提交工单
-- 如果发现了示例代码的 bug，欢迎提交 [issue](https://github.com/AgoraIO/Basic-Video-Call/issues)
+- 如果发现了示例代码的 bug，欢迎提交 [issue](https://github.com/AgoraIO/Advanced-Audio/issues)
 
 ## 代码许可
 

@@ -1,18 +1,20 @@
-# Web Tutorial - 1to1
+# AgoraAudioIO-Web-Webpack - Webpack
 
 *English | [中文](README.zh.md)*
 
-This tutorial shows you how to quickly create an basic video communication using the Agora sample app.
+This tutorial shows you how to quickly create ScreenSharing using the Agora sample app.
 
-With this sample app, you can:
+The small demo contains following features:
 
-- Join/Leave a realtime video call
-- Select Camera/Microphone to use
+- Join/Leave Channel
+- Start/Stop/Pause/Resume AudioMixing
+- Start/Stop/Pause/Resume playEffect
+- Select Media Device
 
 ## Prerequisites
 
-- Node.js 6.9.1+
-- A web server that supports SSL (https)
+- nodejs LTS
+- web browser
 
 ## Quick Start
 
@@ -27,17 +29,26 @@ To build and run the sample application, get an App ID:
 4. Generate a temp **Access Token** (valid for 24 hours) from dashboard page with given channel name, save for later use.
 
 
-### Integrate Agora Video SDK
+### Install dependencies and integrate the Agora Video SDK
 
-Download SDK into **assets** path and rename file name as **AgoraRTCSDK.js**
-
-### Run Web-Server
-
-1. Launch server via following commands in working folder,
+1. Using the Terminal app, enter the `install` command in your project directory. This command installs libraries that are required to run the sample application.
+    ``` bash
+    # install dependencies
+    npm install
     ```
-    npx serve .
+2. Start the application by entering the `run dev` or `run build` command.
+    The `run dev` command is for development purposes.
+    ``` bash
+    # serve with hot reload at localhost:8080
+    npm run dev
     ```
-2. Enter Valid APPID, Token, Channel and click **JOIN**
+    The `run build` command is for production purposes and minifies code.
+    ``` bash
+    # build for production with minification
+    npm run build
+    ```
+3. Your default browser should open and display the sample application, as shown here.
+    **Note:** In some cases, you may need to open a browser and enter `http://localhost:8080` as the URL.
 
 ## Contact Us
 
@@ -47,7 +58,7 @@ Download SDK into **assets** path and rename file name as **AgoraRTCSDK.js**
 - Repositories managed by developer communities can be found at [Agora Community](https://github.com/AgoraIO-Community)
 - You can find full API documentation at [Document Center](https://docs.agora.io/en/)
 - If you encounter problems during integration, you can ask question in [Stack Overflow](https://stackoverflow.com/questions/tagged/agora.io)
-- You can file bugs about this sample at [issue](https://github.com/AgoraIO/Basic-Video-Call/issues)
+- You can file bugs about this sample at [issue](https://github.com/AgoraIO/Advanced-Audio/issues)
 
 ## License
 
