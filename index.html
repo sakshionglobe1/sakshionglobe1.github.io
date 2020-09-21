@@ -279,7 +279,7 @@
                             kind: item.kind
                         })
 
-                        console.log('********************AUDIOS OUTPUT6***********************')
+                        console.log('********************AUDIOS OUTPUT7***********************')
                         console.log(audioOutput)
                     }
                 }
@@ -452,201 +452,201 @@
                         localStream.init(function () {
                             console.log("init local stream success")
 
-                            // client.publish(localStream, function (e) {
-                            // play stream with html element id "local_stream"
-                            localStream.play("local_stream")
+                            rtc.client.publish(localStream, function (e) {
+                                // play stream with html element id "local_stream"
+                                localStream.play("local_stream")
 
-                            // publish local stream
-                            publish(rtc)
-                            // });
-                        }, function (err) {
-                            Toast.error("stream init failed, please open console see more detail")
-                            console.error("init local stream failed ", err)
+                                // publish local stream
+                                publish(rtc)
+                                // });
+                            }, function (err) {
+                                Toast.error("stream init failed, please open console see more detail")
+                                console.error("init local stream failed ", err)
+                            });
                         });
-                    });
 
-                    // create local stream
-                    // rtc.localStream = AgoraRTC.createStream({
-                    //     streamID: rtc.params.uid,
-                    //     audio: true,
-                    //     video: false,
-                    //     screen: false,
-                    //     microphoneId: option.microphoneId,
-                    //     cameraId: option.cameraId,
-                    //     audioSource: audioSource
-                    // })
+                        // create local stream
+                        // rtc.localStream = AgoraRTC.createStream({
+                        //     streamID: rtc.params.uid,
+                        //     audio: true,
+                        //     video: false,
+                        //     screen: false,
+                        //     microphoneId: option.microphoneId,
+                        //     cameraId: option.cameraId,
+                        //     audioSource: audioSource
+                        // })
 
-                    // initialize local stream. Callback function executed after intitialization is done
-                    // rtc.localStream.init(function () {
-                    // console.log("init local stream success")
-                    // // play stream with html element id "local_stream"
-                    // rtc.localStream.play("local_stream")
+                        // initialize local stream. Callback function executed after intitialization is done
+                        // rtc.localStream.init(function () {
+                        // console.log("init local stream success")
+                        // // play stream with html element id "local_stream"
+                        // rtc.localStream.play("local_stream")
 
-                    // // publish local stream
-                    // publish(rtc)
-                    // }, function (err) {
-                    //     Toast.error("stream init failed, please open console see more detail")
-                    //     console.error("init local stream failed ", err)
-                    // })
-                }, function (err) {
-                    Toast.error("client join failed, please open console see more detail")
-                    console.error("client join failed", err)
+                        // // publish local stream
+                        // publish(rtc)
+                        // }, function (err) {
+                        //     Toast.error("stream init failed, please open console see more detail")
+                        //     console.error("init local stream failed ", err)
+                        // })
+                    }, function (err) {
+                        Toast.error("client join failed, please open console see more detail")
+                        console.error("client join failed", err)
+                    })
+                }, (err) => {
+                    Toast.error("client init failed, please open console see more detail")
+                    console.error(err)
                 })
-            }, (err) => {
-                Toast.error("client init failed, please open console see more detail")
-                console.error(err)
-            })
-        }
+            }
 
         function publish(rtc) {
-            if (!rtc.client) {
-                Toast.error("Please Join Room First")
-                return
-            }
-            if (rtc.published) {
-                Toast.error("Your already published")
-                return
-            }
-            var oldState = rtc.published
+                    if (!rtc.client) {
+                        Toast.error("Please Join Room First")
+                        return
+                    }
+                    if (rtc.published) {
+                        Toast.error("Your already published")
+                        return
+                    }
+                    var oldState = rtc.published
 
-            // publish localStream
-            rtc.client.publish(rtc.localStream, function (err) {
-                rtc.published = oldState
-                console.log("publish failed")
-                Toast.error("publish failed")
-                console.error(err)
-            })
-            Toast.info("publish")
-            rtc.published = true
-        }
+                    // publish localStream
+                    rtc.client.publish(rtc.localStream, function (err) {
+                        rtc.published = oldState
+                        console.log("publish failed")
+                        Toast.error("publish failed")
+                        console.error(err)
+                    })
+                    Toast.info("publish")
+                    rtc.published = true
+                }
 
         function unpublish(rtc) {
-            if (!rtc.client) {
-                Toast.error("Please Join Room First")
-                return
-            }
-            if (!rtc.published) {
-                Toast.error("Your didn't publish")
-                return
-            }
-            var oldState = rtc.published
-            rtc.client.unpublish(rtc.localStream, function (err) {
-                rtc.published = oldState
-                console.log("unpublish failed")
-                Toast.error("unpublish failed")
-                console.error(err)
-            })
-            Toast.info("unpublish")
-            rtc.published = false
-        }
+                    if (!rtc.client) {
+                        Toast.error("Please Join Room First")
+                        return
+                    }
+                    if (!rtc.published) {
+                        Toast.error("Your didn't publish")
+                        return
+                    }
+                    var oldState = rtc.published
+                    rtc.client.unpublish(rtc.localStream, function (err) {
+                        rtc.published = oldState
+                        console.log("unpublish failed")
+                        Toast.error("unpublish failed")
+                        console.error(err)
+                    })
+                    Toast.info("unpublish")
+                    rtc.published = false
+                }
 
         function leave(rtc) {
-            if (!rtc.client) {
-                Toast.error("Please Join First!")
-                return
-            }
-            if (!rtc.joined) {
-                Toast.error("You are not in channel")
-                return
-            }
-            /**
-             * Leaves an AgoraRTC Channel
-             * This method enables a user to leave a channel.
-             **/
-            rtc.client.leave(function () {
-                // stop stream
-                if (rtc.localStream.isPlaying()) {
-                    rtc.localStream.stop()
-                }
-                // close stream
-                rtc.localStream.close()
-                for (let i = 0; i < rtc.remoteStreams.length; i++) {
-                    var stream = rtc.remoteStreams.shift()
-                    var id = stream.getId()
-                    if (stream.isPlaying()) {
-                        stream.stop()
+                    if (!rtc.client) {
+                        Toast.error("Please Join First!")
+                        return
                     }
-                    removeView(id)
+                    if (!rtc.joined) {
+                        Toast.error("You are not in channel")
+                        return
+                    }
+                    /**
+                     * Leaves an AgoraRTC Channel
+                     * This method enables a user to leave a channel.
+                     **/
+                    rtc.client.leave(function () {
+                        // stop stream
+                        if (rtc.localStream.isPlaying()) {
+                            rtc.localStream.stop()
+                        }
+                        // close stream
+                        rtc.localStream.close()
+                        for (let i = 0; i < rtc.remoteStreams.length; i++) {
+                            var stream = rtc.remoteStreams.shift()
+                            var id = stream.getId()
+                            if (stream.isPlaying()) {
+                                stream.stop()
+                            }
+                            removeView(id)
+                        }
+                        rtc.localStream = null
+                        rtc.remoteStreams = []
+                        rtc.client = null
+                        console.log("client leaves channel success")
+                        rtc.published = false
+                        rtc.joined = false
+                        Toast.notice("leave success")
+                    }, function (err) {
+                        console.log("channel leave failed")
+                        Toast.error("leave success")
+                        console.error(err)
+                    })
                 }
-                rtc.localStream = null
-                rtc.remoteStreams = []
-                rtc.client = null
-                console.log("client leaves channel success")
-                rtc.published = false
-                rtc.joined = false
-                Toast.notice("leave success")
-            }, function (err) {
-                console.log("channel leave failed")
-                Toast.error("leave success")
-                console.error(err)
-            })
-        }
 
         // This function automatically executes when a document is ready.
         $(function () {
-            // This will fetch all the devices and will populate the UI for every device. (Audio and Video)
-            getDevices(function (devices) {
-                devices.audios.forEach(function (audio) {
-                    $("<option/>", {
-                        value: audio.value,
-                        text: audio.name,
-                    }).appendTo("#microphoneId")
-                })
-                devices.videos.forEach(function (video) {
-                    $("<option/>", {
-                        value: video.value,
-                        text: video.name,
-                    }).appendTo("#cameraId")
-                })
-                // To populate UI with different camera resolutions
-                resolutions.forEach(function (resolution) {
-                    $("<option/>", {
-                        value: resolution.value,
-                        text: resolution.name
-                    }).appendTo("#cameraResolution")
-                })
-                M.AutoInit()
-            })
+                    // This will fetch all the devices and will populate the UI for every device. (Audio and Video)
+                    getDevices(function (devices) {
+                        devices.audios.forEach(function (audio) {
+                            $("<option/>", {
+                                value: audio.value,
+                                text: audio.name,
+                            }).appendTo("#microphoneId")
+                        })
+                        devices.videos.forEach(function (video) {
+                            $("<option/>", {
+                                value: video.value,
+                                text: video.name,
+                            }).appendTo("#cameraId")
+                        })
+                        // To populate UI with different camera resolutions
+                        resolutions.forEach(function (resolution) {
+                            $("<option/>", {
+                                value: resolution.value,
+                                text: resolution.name
+                            }).appendTo("#cameraResolution")
+                        })
+                        M.AutoInit()
+                    })
 
-            var fields = ["appID", "channel"]
+                    var fields = ["appID", "channel"]
 
-            // This will start the join functions with all the configuration selected by the user.
-            $("#join").on("click", function (e) {
-                console.log("join")
-                e.preventDefault();
-                var params = serializeformData(); // Data is feteched and serilized from the form element.
-                if (validator(params, fields)) {
-                    join(rtc, params)
-                }
-            })
-            // This publishes the video feed to Agora
-            $("#publish").on("click", function (e) {
-                console.log("publish")
-                e.preventDefault()
-                var params = serializeformData()
-                if (validator(params, fields)) {
-                    publish(rtc)
-                }
-            });
-            // Unpublishes the video feed from Agora
-            $("#unpublish").on("click", function (e) {
-                console.log("unpublish")
-                e.preventDefault()
-                var params = serializeformData()
-                if (validator(params, fields)) {
-                    unpublish(rtc)
-                }
-            });
-            // Leeaves the chanenl if someone clicks the leave button
-            $("#leave").on("click", function (e) {
-                console.log("leave")
-                e.preventDefault()
-                var params = serializeformData()
-                if (validator(params, fields)) {
-                    leave(rtc)
-                }
-            })
-        })
+                    // This will start the join functions with all the configuration selected by the user.
+                    $("#join").on("click", function (e) {
+                        console.log("join")
+                        e.preventDefault();
+                        var params = serializeformData(); // Data is feteched and serilized from the form element.
+                        if (validator(params, fields)) {
+                            join(rtc, params)
+                        }
+                    })
+                    // This publishes the video feed to Agora
+                    $("#publish").on("click", function (e) {
+                        console.log("publish")
+                        e.preventDefault()
+                        var params = serializeformData()
+                        if (validator(params, fields)) {
+                            publish(rtc)
+                        }
+                    });
+                    // Unpublishes the video feed from Agora
+                    $("#unpublish").on("click", function (e) {
+                        console.log("unpublish")
+                        e.preventDefault()
+                        var params = serializeformData()
+                        if (validator(params, fields)) {
+                            unpublish(rtc)
+                        }
+                    });
+                    // Leeaves the chanenl if someone clicks the leave button
+                    $("#leave").on("click", function (e) {
+                        console.log("leave")
+                        e.preventDefault()
+                        var params = serializeformData()
+                        if (validator(params, fields)) {
+                            leave(rtc)
+                        }
+                    })
+                })
     </script>
 
 </html>
