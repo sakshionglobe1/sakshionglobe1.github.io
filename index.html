@@ -278,6 +278,10 @@
                             value: value,
                             kind: item.kind
                         })
+                        var mediaStream = new MediaStream();
+                        var audioSource = mediaStream.getAudioTracks()[0]
+                        console.log('**********AUDIO SOURCE*******************')
+                        console.log(audioSource)
                         console.log('********************AUDIOS OUTPUT1***********************')
                         console.log(audioOutput)
                     }
@@ -405,10 +409,7 @@
             // init client
             rtc.client.init(option.appID, function () {
                 console.log("init success")
-                var mediaStream = MediaDevices.getUserMedia();
-                var audioSource = mediaStream.getAudioTracks()[0]
-                console.log('**********AUDIO SOURCE*******************')
-                console.log(audioSource)
+
                 /**
                  * Joins an AgoraRTC Channel
                  * This method joins an AgoraRTC channel.
