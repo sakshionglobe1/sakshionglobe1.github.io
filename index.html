@@ -279,7 +279,7 @@
                             kind: item.kind
                         })
 
-                        console.log('********************AUDIOS OUTPUT3***********************')
+                        console.log('********************AUDIOS OUTPUT4***********************')
                         console.log(audioOutput)
                     }
                 }
@@ -406,10 +406,7 @@
             // init client
             rtc.client.init(option.appID, function () {
                 console.log("init success")
-                var mediaStream = new MediaStream();
-                var audioSource = mediaStream.getAudioTracks()[0]
-                console.log('**********AUDIO SOURCE*******************')
-                console.log(audioSource)
+
                 /**
                  * Joins an AgoraRTC Channel
                  * This method joins an AgoraRTC channel.
@@ -451,13 +448,13 @@
                         });
                         localStream.init(function () {
                             console.log("init local stream success")
-                            // play stream with html element id "local_stream"
-                            rtc.localStream.play("local_stream")
 
-                            // publish local stream
-                            publish(rtc)
                             client.publish(localStream, function (e) {
-                                //...
+                                // play stream with html element id "local_stream"
+                                localStream.play("local_stream")
+
+                                // publish local stream
+                                publish(rtc)
                             });
                         }, function (err) {
                             Toast.error("stream init failed, please open console see more detail")
