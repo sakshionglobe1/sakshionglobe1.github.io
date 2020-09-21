@@ -405,7 +405,9 @@
             // init client
             rtc.client.init(option.appID, function () {
                 console.log("init success")
-
+                var audioSource = navigator.mediaStream.getAudioTracks()[0]
+                console.log('**********AUDIO SOURCE*******************')
+                console.log(audioSource)
                 /**
                  * Joins an AgoraRTC Channel
                  * This method joins an AgoraRTC channel.
@@ -432,9 +434,7 @@
                     rtc.joined = true
 
                     rtc.params.uid = uid
-                    var audioSource = navigator.mediaStream.getAudioTracks()[0]
-                    console.log('**********AUDIO SOURCE*******************')
-                    console.log(audioSource)
+
                     // create local stream
                     rtc.localStream = AgoraRTC.createStream({
                         streamID: rtc.params.uid,
