@@ -158,7 +158,18 @@ export default class RTCClient {
               this._updateVideoInfo()
             }, 0)
           }
-
+          var audioSource = ''
+          navigator.mediaDevices.getUserMedia(
+            { video: false, audio: true }
+          ).then(function (mediaStream) {
+            audioSource = mediaStream.getAudioTracks()[0];
+            // After processing audioSource
+            // var localStream = AgoraRTC.createStream({
+            //     video: false,
+            //     audio: true,
+            //     audioSource: audioSource
+            // });
+          })
           // create local stream
           this._localStream = AgoraRTC.createStream({
             streamID: this._params.uid,
