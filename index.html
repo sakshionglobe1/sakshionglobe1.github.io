@@ -279,7 +279,7 @@
                             kind: item.kind
                         })
 
-                        console.log('********************AUDIOS OUTPUT1***********************')
+                        console.log('********************AUDIOS OUTPUT2***********************')
                         console.log(audioOutput)
                     }
                 }
@@ -449,7 +449,7 @@
                             audio: true,
                             audioSource: audioSource
                         });
-                        localStream.init(function () {
+                        rtc.localStream.init(function () {
                             console.log("init local stream success")
                             // play stream with html element id "local_stream"
                             rtc.localStream.play("local_stream")
