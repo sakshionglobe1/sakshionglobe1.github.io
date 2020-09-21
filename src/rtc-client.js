@@ -1,10 +1,10 @@
 import AgoraRTC from 'agora-rtc-sdk'
-import { Toast, addView, removeView } from './common'
+import {Toast, addView, removeView} from './common'
 
 console.log('agora sdk version: ' + AgoraRTC.VERSION + ' compatible: ' + AgoraRTC.checkSystemRequirements())
 
 export default class RTCClient {
-  constructor() {
+  constructor () {
     this._client = null
     this._joined = false
     this._published = false
@@ -37,7 +37,7 @@ export default class RTCClient {
       console.log('stream-published')
     })
     // Occurs when the remote stream is added.
-    this._client.on('stream-added', (evt) => {
+    this._client.on('stream-added', (evt) => {  
       const remoteStream = evt.stream
       const id = remoteStream.getId()
       Toast.info('stream-added uid: ' + id)
@@ -54,7 +54,7 @@ export default class RTCClient {
       const id = remoteStream.getId()
       this._remoteStreams.push(remoteStream)
       addView(id, this._showProfile)
-      remoteStream.play('remote_video_' + id, { fit: 'cover' })
+      remoteStream.play('remote_video_' + id, {fit: 'cover'})
       Toast.info('stream-subscribed remote-uid: ' + id)
       console.log('stream-subscribed remote-uid: ', id)
     })
@@ -92,21 +92,21 @@ export default class RTCClient {
         6: '10%'
       }
       if (stats.uplinkNetworkQuality != 0) {
-        $('#net_up').attr({ 'style': 'width: ' + qualityProgressPresenter[stats.uplinkNetworkQuality] + '' })
+        $('#net_up').attr({'style': 'width: ' + qualityProgressPresenter[stats.uplinkNetworkQuality] + ''})
       }
       if (stats.downlinkNetworkQuality != 0) {
-        $('#net_down').attr({ 'style': 'width: ' + qualityProgressPresenter[stats.downlinkNetworkQuality] + '' })
+        $('#net_down').attr({'style': 'width: ' + qualityProgressPresenter[stats.downlinkNetworkQuality] + ''})
       }
     })
   }
 
-  join(data) {
-    return new Promise((resolve, reject) => {
+  join (data) {
+    return new Promise((resolve, reject) => {    
       if (this._joined) {
         Toast.error('Your already joined')
         return
       }
-
+    
       /**
        * A class defining the properties of the config parameter in the createClient method.
        * Note:
@@ -114,17 +114,17 @@ export default class RTCClient {
        *    Ensure that you set these properties before calling Client.join.
        *  You could find more detail here. https://docs.agora.io/en/Video/API%20Reference/web/interfaces/agorartc.clientconfig.html
       **/
-      this._client = AgoraRTC.createClient({ mode: data.mode, codec: data.codec })
-
+      this._client = AgoraRTC.createClient({mode: data.mode, codec: data.codec})
+    
       this._params = data
-
+    
       // handle AgoraRTC client event
       this.handleEvents()
-
+    
       // init client
       this._client.init(data.appID, () => {
         console.log('init success')
-
+    
         /**
          * Joins an AgoraRTC Channel
          * This method joins an AgoraRTC channel.
@@ -150,7 +150,7 @@ export default class RTCClient {
           Toast.notice('join channel: ' + data.channel + ' success, uid: ' + uid)
           console.log('join channel: ' + data.channel + ' success, uid: ' + uid)
           this._joined = true
-
+    
           // start stream interval stats
           // if you don't need show stream profile you can comment this
           if (!this._interval) {
@@ -158,12 +158,12 @@ export default class RTCClient {
               this._updateVideoInfo()
             }, 0)
           }
-
+    
           // create local stream
           this._localStream = AgoraRTC.createStream({
             streamID: this._params.uid,
             audio: true,
-            video: false,
+            video: true,
             screen: false,
             microphoneId: data.microphoneId,
             cameraId: data.cameraId
@@ -186,20 +186,20 @@ export default class RTCClient {
             // set local video resolution
             this._localStream.setVideoProfile(data.cameraResolution)
           }
-
+    
           // init local stream
           this._localStream.init(() => {
             console.log('init local stream success')
             // play stream with html element id "local_stream"
-            this._localStream.play('local_stream', { fit: 'cover' })
-
+            this._localStream.play('local_stream', {fit: 'cover'})
+    
             // run callback
             resolve()
-          }, (err) => {
+          }, (err) =>  {
             Toast.error('stream init failed, please open console see more detail')
             console.error('init local stream failed ', err)
           })
-        }, function (err) {
+        }, function(err) {
           Toast.error('client join failed, please open console see more detail')
           console.error('client join failed', err)
         })
@@ -210,7 +210,7 @@ export default class RTCClient {
     })
   }
 
-  publish() {
+  publish () {
     if (!this._client) {
       Toast.error('Please Join First')
       return
@@ -220,7 +220,7 @@ export default class RTCClient {
       return
     }
     const oldState = this._published
-
+  
     // publish localStream
     this._client.publish(this._localStream, (err) => {
       this._published = oldState
@@ -232,7 +232,7 @@ export default class RTCClient {
     this._published = true
   }
 
-  unpublish() {
+  unpublish () {
     if (!this._client) {
       Toast.error('Please Join First')
       return
@@ -252,7 +252,7 @@ export default class RTCClient {
     this._published = false
   }
 
-  leave() {
+  leave () {
     if (!this._client) {
       Toast.error('Please Join First!')
       return
@@ -289,7 +289,7 @@ export default class RTCClient {
     })
   }
 
-  _transmitAudioMixingState(state) {
+  _transmitAudioMixingState (state) {
     if (this._audioMixingState == 'start' && ['stop', 'resume', 'pause'].indexOf(state) != -1) {
       return true
     } else if (this._audioMixingState == 'stop' && ['start'].indexOf(state) != -1) {
@@ -302,7 +302,7 @@ export default class RTCClient {
     console.log(`Can't transmit audio mixing state: ${this._audioMixingState}, into: ${state}`)
   }
 
-  startAudioMixing(filePath) {
+  startAudioMixing (filePath) {
     if (!this._client) {
       Toast.error('Please Join First!')
       return
@@ -342,7 +342,7 @@ export default class RTCClient {
   }
 
   // This method requried invoke after join channel success
-  stopAudioMixing() {
+  stopAudioMixing () {
     if (!this._client) {
       Toast.error('Please Join First!')
       return
@@ -366,7 +366,7 @@ export default class RTCClient {
     })
   }
 
-  pauseAudioMixing() {
+  pauseAudioMixing () {
     if (!this._client) {
       Toast.error('Please Join First!')
       return
@@ -389,7 +389,7 @@ export default class RTCClient {
     })
   }
 
-  resumeAudioMixing() {
+  resumeAudioMixing () {
     if (!this._client) {
       Toast.error('Please Join First!')
       return
@@ -413,7 +413,7 @@ export default class RTCClient {
     })
   }
 
-  _transmitAudioEffectState(state) {
+  _transmitAudioEffectState (state) {
     if (this._audioEffectState == 'start' && ['stop', 'resume', 'pause', 'start'].indexOf(state) != -1) {
       return true
     } else if (this._audioEffectState == 'stop' && ['start'].indexOf(state) != -1) {
@@ -437,7 +437,7 @@ export default class RTCClient {
    * 
    * GET MORE DETAILS PLEASE VISIT IT ON DOCUMENTATION https://docs.agora.io/en/Audio%20Broadcast/API%20Reference/web/interfaces/agorartc.stream.html#playeffect
    */
-  playEffect(filePaths) {
+  playEffect (filePaths) {
     if (!this._client) {
       Toast.error('Please Join First!')
       return
@@ -468,7 +468,7 @@ export default class RTCClient {
     }
   }
 
-  stopEffect() {
+  stopEffect () {
     if (!this._client) {
       Toast.error('Please Join First!')
       return
@@ -493,7 +493,7 @@ export default class RTCClient {
     })
   }
 
-  resumeEffect() {
+  resumeEffect () {
     if (!this._client) {
       Toast.error('Please Join First!')
       return
@@ -518,7 +518,7 @@ export default class RTCClient {
     })
   }
 
-  pauseEffect() {
+  pauseEffect () {
     if (!this._client) {
       Toast.error('Please Join First!')
       return
@@ -543,7 +543,7 @@ export default class RTCClient {
     })
   }
 
-  _updateVideoInfo() {
+  _updateVideoInfo () {
     this._localStream && this._localStream.getStats((stats) => {
       const localStreamProfile = [
         ['Uid: ', this._localStream.getId()].join(''),
@@ -562,15 +562,15 @@ export default class RTCClient {
             ['End to end delay: ', stats.endToEndDelay, 'ms'].join(''),
             ['Video recv: ', stats.videoReceiveFrameRate, 'fps ', stats.videoReceiveResolutionWidth + 'x' + stats.videoReceiveResolutionHeight].join(''),
           ].join('<br/>')
-          if ($('#remote_video_info_' + remoteStream.getId())[0]) {
-            $('#remote_video_info_' + remoteStream.getId())[0].innerHTML = remoteStreamProfile
+          if ($('#remote_video_info_'+remoteStream.getId())[0]) {
+            $('#remote_video_info_'+remoteStream.getId())[0].innerHTML = remoteStreamProfile
           }
         })
       }
     }
   }
 
-  setNetworkQualityAndStreamStats(enable) {
+  setNetworkQualityAndStreamStats (enable) {
     this._showProfile = enable
     this._showProfile ? $('.video-profile').removeClass('hide') : $('.video-profile').addClass('hide')
   }
