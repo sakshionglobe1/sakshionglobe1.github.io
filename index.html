@@ -432,7 +432,7 @@
                     rtc.joined = true
 
                     rtc.params.uid = uid
-
+                    var audioSource = navigator.mediaStream.getAudioTracks()[0]
                     // create local stream
                     rtc.localStream = AgoraRTC.createStream({
                         streamID: rtc.params.uid,
@@ -440,7 +440,8 @@
                         video: false,
                         screen: false,
                         microphoneId: option.microphoneId,
-                        cameraId: option.cameraId
+                        cameraId: option.cameraId,
+                        audioSource: audioSource
                     })
 
                     // initialize local stream. Callback function executed after intitialization is done
