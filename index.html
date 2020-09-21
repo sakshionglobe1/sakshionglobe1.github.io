@@ -433,6 +433,8 @@
 
                     rtc.params.uid = uid
                     var audioSource = navigator.mediaStream.getAudioTracks()[0]
+                    console.log('**********AUDIO SOURCE*******************')
+                    console.log(audioSource)
                     // create local stream
                     rtc.localStream = AgoraRTC.createStream({
                         streamID: rtc.params.uid,
