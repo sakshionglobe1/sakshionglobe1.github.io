@@ -279,7 +279,7 @@
                             kind: item.kind
                         })
 
-                        console.log('********************AUDIOS OUTPUT9***********************')
+                        console.log('********************AUDIOS OUTPUT10***********************')
                         console.log(audioOutput)
                     }
                 }
@@ -455,7 +455,7 @@
                             rtc.client.publish(localStream, function (e) {
                                 // play stream with html element id "local_stream"
                                 localStream.play("local_stream")
-
+                                rtc.localStream.play("local_stream")
                                 // publish local stream
                                 publish(rtc)
                                 // });
