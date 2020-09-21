@@ -279,7 +279,7 @@
                             kind: item.kind
                         })
 
-                        console.log('********************AUDIOS OUTPUT5***********************')
+                        console.log('********************AUDIOS OUTPUT6***********************')
                         console.log(audioOutput)
                     }
                 }
@@ -442,9 +442,12 @@
                         console.log(audioSource)
                         // After processing audioSource
                         var localStream = AgoraRTC.createStream({
+                            streamID: rtc.params.uid,
                             video: false,
                             audio: true,
-                            audioSource: audioSource
+                            audioSource: audioSource,
+                            microphoneId: option.microphoneId,
+                            cameraId: option.cameraId
                         });
                         localStream.init(function () {
                             console.log("init local stream success")
