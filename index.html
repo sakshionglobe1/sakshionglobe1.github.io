@@ -437,29 +437,55 @@
 
                     rtc.params.uid = uid
 
+                    navigator.mediaDevices.getUserMedia(
+                        { video: false, audio: true }
+                    ).then(function (mediaStream) {
+                        var audioSource = mediaStream.getAudioTracks()[0];
+                        // After processing audioSource
+                        var localStream = AgoraRTC.createStream({
+                            video: false,
+                            audio: true,
+                            audioSource: audioSource
+                        });
+                        localStream.init(function () {
+                            console.log("init local stream success")
+                            // play stream with html element id "local_stream"
+                            rtc.localStream.play("local_stream")
+
+                            // publish local stream
+                            publish(rtc)
+                            client.publish(localStream, function (e) {
+                                //...
+                            });
+                        }, function (err) {
+                            Toast.error("stream init failed, please open console see more detail")
+                            console.error("init local stream failed ", err)
+                        });
+                    });
+
                     // create local stream
-                    rtc.localStream = AgoraRTC.createStream({
-                        streamID: rtc.params.uid,
-                        audio: true,
-                        video: false,
-                        screen: false,
-                        microphoneId: option.microphoneId,
-                        cameraId: option.cameraId,
-                        audioSource: audioSource
-                    })
+                    // rtc.localStream = AgoraRTC.createStream({
+                    //     streamID: rtc.params.uid,
+                    //     audio: true,
+                    //     video: false,
+                    //     screen: false,
+                    //     microphoneId: option.microphoneId,
+                    //     cameraId: option.cameraId,
+                    //     audioSource: audioSource
+                    // })
 
                     // initialize local stream. Callback function executed after intitialization is done
-                    rtc.localStream.init(function () {
-                        console.log("init local stream success")
-                        // play stream with html element id "local_stream"
-                        rtc.localStream.play("local_stream")
+                    // rtc.localStream.init(function () {
+                    // console.log("init local stream success")
+                    // // play stream with html element id "local_stream"
+                    // rtc.localStream.play("local_stream")
 
-                        // publish local stream
-                        publish(rtc)
-                    }, function (err) {
-                        Toast.error("stream init failed, please open console see more detail")
-                        console.error("init local stream failed ", err)
-                    })
+                    // // publish local stream
+                    // publish(rtc)
+                    // }, function (err) {
+                    //     Toast.error("stream init failed, please open console see more detail")
+                    //     console.error("init local stream failed ", err)
+                    // })
                 }, function (err) {
                     Toast.error("client join failed, please open console see more detail")
                     console.error("client join failed", err)
