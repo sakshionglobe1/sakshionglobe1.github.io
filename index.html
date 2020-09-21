@@ -449,13 +449,13 @@
                         localStream.init(function () {
                             console.log("init local stream success")
 
-                            client.publish(localStream, function (e) {
-                                // play stream with html element id "local_stream"
-                                localStream.play("local_stream")
+                            // client.publish(localStream, function (e) {
+                            // play stream with html element id "local_stream"
+                            localStream.play("local_stream")
 
-                                // publish local stream
-                                publish(rtc)
-                            });
+                            // publish local stream
+                            publish(rtc)
+                            // });
                         }, function (err) {
                             Toast.error("stream init failed, please open console see more detail")
                             console.error("init local stream failed ", err)
