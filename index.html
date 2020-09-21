@@ -405,7 +405,8 @@
             // init client
             rtc.client.init(option.appID, function () {
                 console.log("init success")
-                var audioSource = navigator.mediaStream.getAudioTracks()[0]
+                var mediaStream = MediaDevices.getUserMedia();
+                var audioSource = mediaStream.getAudioTracks()[0]
                 console.log('**********AUDIO SOURCE*******************')
                 console.log(audioSource)
                 /**
